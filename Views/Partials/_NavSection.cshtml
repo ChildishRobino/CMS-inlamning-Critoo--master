@@ -1,0 +1,62 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using Umbraco.Cms.Core
+@using Umbraco.Cms.Core.Models.PublishedContent
+@using Umbraco.Cms.Core.Routing
+@using Umbraco.Extensions
+
+@inject IPublishedValueFallback PublishedValueFallback
+@inject IPublishedUrlProvider PublishedUrlProvider
+
+
+@{ 
+    
+    var site = Model.Root();
+
+    var selection = Model.Root().Children.Where(x => x.IsVisible(PublishedValueFallback)).ToArray(); 
+
+ }
+
+
+<section class="navigation-section">
+      
+        <div class="nav-container">
+          <a class="logo" href="/"><img
+            src="\static\crito_logo.png"
+            alt="Crito logotype"
+          /></a>
+          <nav>
+            <div class="first-from-top">
+            <div class="contact-company-traditional">
+                <span class="contact-traditional"><i class="fa-solid fa-phone-volume nav-i"></i>+46 (8) 121 470 </span>
+                <span class="contact-traditional"><i class="fa-solid fa-envelope nav-i"></i>info@crito.com </span>
+                <span class="contact-traditional"><i class="fa-solid fa-location-dot nav-i"></i>Sveavägen 31, 111 34 STOCKHOLM
+                </span>
+            </div>
+        </div>
+
+            <div class="contact-company-social-media">
+                <a><i class="fab fa-facebook-square"></i></a>
+                <a><i class="fa-brands fa-twitter"></i></a>
+                <a><i class="fa-brands fa-instagram"></i></a>
+                <a><i class="fa-brands fa-linkedin-in"></i></a>
+            </div>
+       
+        <div class="second-from-top">
+            <div class="navigation">
+                <a class="navigation-link" href="@site.Url()">@site.Name</a>
+                
+                @if (selection?.Length > 0)
+{
+   
+        @foreach (var item in selection)
+        {
+         <a class="navigation-link" href="@item.Url(PublishedUrlProvider)">@item.Name</a>
+        }
+    
+}
+
+                <a class="login">Login</a>
+            </div>
+        </div>
+        </div>
+        </section>
